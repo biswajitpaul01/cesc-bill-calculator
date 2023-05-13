@@ -1,0 +1,24 @@
+body {
+  background-image: url("./assets/back.jpg");
+}
+
+.container {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+
+  .card {
+    backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
+    min-height: 15vh;
+    width: min(95%, 550px);
+    padding: 1rem;
+  }
+
+  .form-wrapper {
+    @apply flex gap-3 mb-3;
+  }
+}
