@@ -1,4 +1,7 @@
+import { DOMESTIC_TYPE } from "../../config/constants";
+
 export const initialValues = {
+  meterType: DOMESTIC_TYPE,
   unit: "",
 };
 

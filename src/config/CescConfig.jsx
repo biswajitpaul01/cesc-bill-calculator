@@ -1,4 +1,4 @@
-export const CescSlabRates = [
+export const CescSlabRatesResidential = [
   {
     id: 1,
     label: "0-25",
@@ -33,6 +33,39 @@ export const CescSlabRates = [
     id: 6,
     label: "301-",
     rate: 9.21,
+    max: 301,
+  },
+];
+
+export const CescSlabRatesCommertial = [
+  {
+    id: 1,
+    label: "0-60",
+    rate: 6.57,
+    max: 60,
+  },
+  {
+    id: 2,
+    label: "61-100",
+    rate: 7.24,
+    max: 100,
+  },
+  {
+    id: 3,
+    label: "101-150",
+    rate: 7.93,
+    max: 150,
+  },
+  {
+    id: 4,
+    label: "151-300",
+    rate: 8.49,
+    max: 300,
+  },
+  {
+    id: 6,
+    label: "301-",
+    rate: 9.26,
     max: 301,
   },
 ];
