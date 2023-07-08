@@ -62,11 +62,11 @@ export const calculateCescBill = ({ meterType, unit }) => {
   totalBill = bill.reduce((a, b) => a + b, 0);
   rebate = totalBill * 0.01 + fixedCharge * 0.01;
 
-  if (meterType === DOMESTIC_TYPE && initialUnit > 150) {
+  if (meterType === DOMESTIC_TYPE && initialUnit > 300) {
     govDuty = (totalBill + mvca + fixedCharge - rebate) * 0.1;
   }
 
-  if (meterType === COMMERCIAL_TYPE && initialUnit > 300) {
+  if (meterType === COMMERCIAL_TYPE && initialUnit > 150) {
     govDuty = (totalBill + mvca + fixedCharge - rebate) * 0.125;
   }
 
