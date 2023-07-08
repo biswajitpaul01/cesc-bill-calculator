@@ -20,6 +20,7 @@ export const CescBillSplit = () => {
   const govDuty = useSelector((state) => state.cescBill.govDuty);
   const meterRent = useSelector((state) => state.cescBill.meterRent);
   const rebate = useSelector((state) => state.cescBill.rebate);
+  const grossAmount = useSelector((state) => state.cescBill.grossAmount);
   const finalBill = useSelector((state) => state.cescBill.finalBill);
 
   return (
@@ -56,28 +57,24 @@ export const CescBillSplit = () => {
                 </tr>
               ))}
               <tr className="table-row">
-                <th scope="row" className="table-th" colSpan={2}>
+                <th scope="row" className="table-th bg-amber-400" colSpan={2}>
                   Total Energy Charges
                 </th>
-                <td className="table-td">{indianCurrency(energyCharges)}</td>
+                <td className="table-td bg-amber-400">
+                  {indianCurrency(energyCharges)}
+                </td>
               </tr>
               <tr className="table-row">
                 <th scope="row" className="table-th" colSpan={2}>
-                  Fixed Charges
-                </th>
-                <td className="table-td">{indianCurrency(fixedCharge)}</td>
-              </tr>
-              <tr className="table-row">
-                <th scope="row" className="table-th" colSpan={2}>
-                  Meter Rent
-                </th>
-                <td className="table-td">{indianCurrency(meterRent)}</td>
-              </tr>
-              <tr className="table-row">
-                <th scope="row" className="table-th" colSpan={2}>
-                  MVCA
+                  <abbr title="Monthly Variable Cost Adjustment">MVCA</abbr>
                 </th>
                 <td className="table-td">{indianCurrency(mvca)}</td>
+              </tr>
+              <tr className="table-row">
+                <th scope="row" className="table-th" colSpan={2}>
+                  Fixed/Demand Charges
+                </th>
+                <td className="table-td">{indianCurrency(fixedCharge)}</td>
               </tr>
               <tr className="table-row">
                 <th scope="row" className="table-th" colSpan={2}>
@@ -87,15 +84,33 @@ export const CescBillSplit = () => {
               </tr>
               <tr className="table-row">
                 <th scope="row" className="table-th" colSpan={2}>
-                  Rebate
+                  Meter Rent
                 </th>
-                <td className="table-td">-{indianCurrency(rebate)}</td>
+                <td className="table-td">{indianCurrency(meterRent)}</td>
               </tr>
               <tr className="table-row">
-                <th scope="row" className="table-th" colSpan={2}>
-                  Total
+                <th scope="row" className="table-th bg-sky-400" colSpan={2}>
+                  Gross Amount
                 </th>
-                <td className="table-td">{indianCurrency(finalBill)}</td>
+                <td className="table-td bg-sky-400 text-white">
+                  {indianCurrency(grossAmount)}
+                </td>
+              </tr>
+              <tr className="table-row">
+                <th scope="row" className="table-th bg-red-400" colSpan={2}>
+                  Rebate
+                </th>
+                <td className="table-td bg-red-400 text-white">
+                  -{indianCurrency(rebate)}
+                </td>
+              </tr>
+              <tr className="table-row">
+                <th scope="row" className="table-th bg-green-400" colSpan={2}>
+                  Net Amount
+                </th>
+                <td className="table-td bg-green-400 text-white">
+                  {indianCurrency(finalBill)}
+                </td>
               </tr>
             </tbody>
           </table>

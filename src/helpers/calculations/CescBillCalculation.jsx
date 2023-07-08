@@ -14,49 +14,26 @@ export const calculateCescBill = ({ meterType, unit }) => {
   let totalBill = 0;
   let rebate = 0;
   let slabRates = [];
+  const slabs =
+    meterType === DOMESTIC_TYPE
+      ? structuredClone(CescSlabRatesResidential)
+      : structuredClone(CescSlabRatesCommertial);
 
-  if (meterType === DOMESTIC_TYPE) {
-    while (unit > 0) {
-      if (unit > 300) {
-        slabRates.push((unit - 300) * CescSlabRatesResidential[5].rate);
-        unit = 300;
-      } else if (unit > 150) {
-        slabRates.push((unit - 150) * CescSlabRatesResidential[4].rate);
-        unit = 150;
-      } else if (unit > 100) {
-        slabRates.push((unit - 100) * CescSlabRatesResidential[3].rate);
-        unit = 100;
-      } else if (unit > 60) {
-        slabRates.push((unit - 60) * CescSlabRatesResidential[2].rate);
-        unit = 60;
-      } else if (unit > 25) {
-        slabRates.push((unit - 25) * CescSlabRatesResidential[1].rate);
-        unit = 25;
-      } else {
-        slabRates.push(unit * CescSlabRatesResidential[0].rate);
-        unit = 0;
-      }
-    }
-  } else if (meterType === COMMERCIAL_TYPE) {
-    while (unit > 0) {
-      if (unit > 300) {
-        slabRates.push((unit - 300) * CescSlabRatesCommertial[4].rate);
-        unit = 300;
-      } else if (unit > 150) {
-        slabRates.push((unit - 150) * CescSlabRatesCommertial[3].rate);
-        unit = 150;
-      } else if (unit > 100) {
-        slabRates.push((unit - 100) * CescSlabRatesCommertial[2].rate);
-        unit = 100;
-      } else if (unit > 60) {
-        slabRates.push((unit - 60) * CescSlabRatesCommertial[1].rate);
-        unit = 60;
-      } else {
-        slabRates.push(unit * CescSlabRatesCommertial[0].rate);
-        unit = 0;
-      }
-    }
-  }
+  slabs
+    .filter(
+      (slab, index) =>
+        !index ||
+        (unit > slabs[index - 1].max && unit <= slabs[index].max) ||
+        unit > slab.max
+    )
+    .reverse()
+    .reduce((accumulator, currentValue) => {
+      const index = Math.max(currentValue.id - 1, 0);
+      const max = Math.min(slabs[index - 1]?.max, 300) || 0;
+
+      slabRates.push((accumulator - max) * currentValue.rate);
+      return max;
+    }, unit);
 
   bill = slabRates.reverse();
   totalBill = bill.reduce((a, b) => a + b, 0);
@@ -64,10 +41,9 @@ export const calculateCescBill = ({ meterType, unit }) => {
 
   if (meterType === DOMESTIC_TYPE && initialUnit > 300) {
     govDuty = (totalBill + mvca + fixedCharge - rebate) * 0.1;
-  }
-
-  if (meterType === COMMERCIAL_TYPE && initialUnit > 150) {
-    govDuty = (totalBill + mvca + fixedCharge - rebate) * 0.125;
+  } else if (meterType === COMMERCIAL_TYPE && initialUnit > 150) {
+    const percentage = initialUnit > 1000 ? 0.15 : 0.125;
+    govDuty = (totalBill + mvca + fixedCharge - rebate) * percentage;
   }
 
   return {
