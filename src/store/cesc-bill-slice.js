@@ -14,6 +14,7 @@ const initialState = {
   fixedCharge: 0,
   govDuty: 0,
   meterRent: 0,
+  grossAmount: 0,
   rebate: 0,
   finalBill: 0,
 };
@@ -42,8 +43,8 @@ export const cescBillSlice = createSlice({
       state.govDuty = govDuty;
       state.meterRent = meterRent;
       state.rebate = rebate;
-      state.finalBill =
-        totalBill + fixedCharge + mvca + govDuty + meterRent - rebate;
+      state.grossAmount = totalBill + fixedCharge + mvca + govDuty + meterRent;
+      state.finalBill = state.grossAmount - rebate;
     },
   },
 });
