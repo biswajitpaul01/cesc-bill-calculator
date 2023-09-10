@@ -2,12 +2,12 @@ import {
   CescSlabRatesCommertial,
   CescSlabRatesResidential,
 } from "../../config/CescConfig";
-import { COMMERCIAL_TYPE, DOMESTIC_TYPE } from "../../config/constants";
+import { COMMERCIAL_FIXED_CHARGE, COMMERCIAL_METER_RENT, COMMERCIAL_TYPE, DOMESTIC_FIXED_CHARGE, DOMESTIC_METER_RENT, DOMESTIC_TYPE } from "../../config/constants";
 
 export const calculateCescBill = ({ meterType, unit }) => {
   const initialUnit = unit;
-  const meterRent = meterType === DOMESTIC_TYPE ? 10 : 15;
-  const fixedCharge = meterType === DOMESTIC_TYPE ? 16.5 : 24;
+  const meterRent = meterType === DOMESTIC_TYPE ? DOMESTIC_METER_RENT : COMMERCIAL_METER_RENT;
+  const fixedCharge = meterType === DOMESTIC_TYPE ? DOMESTIC_FIXED_CHARGE : COMMERCIAL_FIXED_CHARGE;
   const mvca = 0;
   let govDuty = 0;
   let bill = 0;
